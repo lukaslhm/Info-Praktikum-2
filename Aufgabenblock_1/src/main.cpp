@@ -3,7 +3,6 @@
 
 #include "Fahrzeug.h"
 
-
 void vAufgabe_1()
 {
 	Fahrzeug F1;
