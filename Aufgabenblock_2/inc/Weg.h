@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <memory>
 
 #include "Simulationsobjekt.h"
 #include "Tempolimit.h"

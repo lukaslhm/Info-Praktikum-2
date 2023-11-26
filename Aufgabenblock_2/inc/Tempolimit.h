@@ -5,6 +5,6 @@
 enum class Tempolimit
 {
 	Innerorts = 50,
-	Landstraße = 100,
+	Landstrasse = 100,
 	Autobahn = std::numeric_limits<int>::max()
 };
