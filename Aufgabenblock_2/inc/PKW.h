@@ -17,6 +17,8 @@ public:
 
 	void vAusgeben(std::ostream& out) const override;
 
+	void vZeichnen(const Weg& weg) override;
+
 private:
 	double p_dVerbrauch;
 	double p_dTankvolumen;

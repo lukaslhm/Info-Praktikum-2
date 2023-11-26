@@ -31,7 +31,7 @@ bool Simulationsobjekt::operator==(const Simulationsobjekt& oprnd) const
 	return p_iID == oprnd.p_iID;
 }
 
-std::string Simulationsobjekt::getName()
+std::string Simulationsobjekt::getName() const
 {
 	return p_sName;
 }

@@ -16,7 +16,7 @@ public:
 
 	bool operator==(const Simulationsobjekt& oprnd) const;
 
-	std::string getName();
+	std::string getName() const;
 
 protected:
 	double p_dZeit;

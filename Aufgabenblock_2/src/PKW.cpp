@@ -1,6 +1,8 @@
 #include "PKW.h"
 #include "Verhalten.h"
 #include "AusgabeKonstanten.h"
+#include "SimuClient.h"
+#include "Weg.h"
 
 PKW::PKW(std::string initName, double initMaxVelo, double initVerbrauch, double initTankvolumen)
 	: Fahrzeug(initName, initMaxVelo), p_dVerbrauch(initVerbrauch), p_dTankvolumen(initTankvolumen), p_dTankinhalt(p_dTankvolumen/2)
@@ -56,3 +58,12 @@ void PKW::vAusgeben(std::ostream& out) const
 	out << std::setw(SEPERATOR_WIDTH) << ' ';
 	out << std::setw(TANKINHALT_WIDTH) << p_dTankinhalt;
 }
+
+void PKW::vZeichnen(const Weg &weg)
+{
+	bZeichnePKW(getName(), weg.getName(), (double) p_dAbschnittStrecke / weg.getLaenge(), dGeschwindigkeit(), p_dTankinhalt);
+}
+
+
+
+

@@ -46,6 +46,7 @@ void Weg::vSimulieren()
 		{
 			ex.vBearbeiten();
 		}
+		it->vZeichnen(*this);
 	}
 }
 

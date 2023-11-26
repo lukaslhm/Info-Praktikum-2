@@ -37,6 +37,8 @@ public:
 	void vNeueStrecke(Weg& neuerWeg);
 	void vNeueStrecke(Weg& neuerWeg, double StartZeit);
 
+	virtual void vZeichnen(const Weg& weg) = 0;
+
 	double getGesamtStrecke() const;
 	double getAbschnittStrecke() const;
 
@@ -48,8 +50,6 @@ protected:
 	double p_dGesamtStrecke;
 	double p_dGesamtZeit;
 	std::unique_ptr<Verhalten> p_pVerhalten;
-
-private:
 	double p_dAbschnittStrecke;
 
 };

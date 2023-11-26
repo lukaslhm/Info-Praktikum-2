@@ -14,4 +14,6 @@ public:
 	double dGeschwindigkeit() const override;
 
 	void vAusgeben(std::ostream& out) const override;
+
+	void vZeichnen(const Weg& weg) override;
 };
