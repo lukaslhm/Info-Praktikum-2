@@ -36,17 +36,22 @@ void Weg::vKopf()
 
 void Weg::vSimulieren()
 {
-	for (auto& it : p_pFahrzeuge)
+	bool notDone = true;
+	while (notDone)
 	{
 		try
 		{
-			it->vSimulieren();
+			for (auto& it : p_pFahrzeuge)
+			{
+				it->vSimulieren();
+				it->vZeichnen(*this);
+			}
+			notDone = false;
 		}
 		catch (Fahrausnahme& ex)
 		{
 			ex.vBearbeiten();
 		}
-		it->vZeichnen(*this);
 	}
 }
 
@@ -103,3 +108,19 @@ double Weg::getTempolimit() const
 {
 	return (double) p_eTempolimit;
 }
+
+std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fzg)
+{
+	for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++)
+	{
+		if (*it->get() == fzg)
+		{
+			std::unique_ptr<Fahrzeug> tempFzg = std::move(*it);
+			p_pFahrzeuge.erase(it);
+			return tempFzg;
+		}
+	}
+	return std::unique_ptr<Fahrzeug>();
+}
+
+

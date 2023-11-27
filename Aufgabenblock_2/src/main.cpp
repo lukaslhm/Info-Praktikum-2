@@ -96,13 +96,13 @@ void vAufgabe_6()
 
 	bZeichneStrasse("Hin", "Ruck", 500, 2, coords);
 
-	hinWeg.vAnnahme(std::make_unique<PKW>("PKW1", 50, 9), 3);
-	hinWeg.vAnnahme(std::make_unique<PKW>("PKW2", 100, 10));
+	hinWeg.vAnnahme(std::make_unique<PKW>("PKW1", 50, 1, 500), 3);
+	hinWeg.vAnnahme(std::make_unique<PKW>("PKW2", 100, 1, 500));
 	hinWeg.vAnnahme(std::make_unique<Fahrrad>("Fahrrad1", 30));
 
-	double dt = 0.01;
+	double dt = 0.1;
 
-	for (double t = 0; t < 5 * (1 + std::numeric_limits<double>::epsilon()); t += dt)
+	for (double t = 0; t < 11 * (1 + std::numeric_limits<double>::epsilon()); t += dt)
 	{
 		std::cout << "GlobaleZeit: " << dGlobaleZeit << std::endl;
 		hinWeg.vSimulieren();

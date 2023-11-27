@@ -22,4 +22,6 @@ void Streckenende::vBearbeiten()
 	Weg::vKopf();
 	std::cout << p_pWeg;
 	std::cout << std::endl << std::endl;
+
+	p_pWeg.pAbgabe(p_pFahrzeug);
 }

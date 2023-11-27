@@ -26,6 +26,8 @@ public:
 	void vAnnahme(std::unique_ptr<Fahrzeug> fzg);
 	void vAnnahme(std::unique_ptr<Fahrzeug> fzg, double StartZeit);
 
+	std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fzg);
+
 	double getTempolimit() const;
 	double getLaenge() const;
 
