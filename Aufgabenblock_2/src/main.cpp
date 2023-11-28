@@ -1,5 +1,6 @@
 #include <vector>
 #include <memory>
+#include <random>
 
 #include "SimuClient.h"
 
@@ -8,6 +9,7 @@
 #include "Fahrrad.h"
 
 #include "Weg.h"
+#include "vertagt_liste.h"
 
 double dGlobaleZeit = 0;
 
@@ -122,8 +124,69 @@ void vAufgabe_6()
 	std::cin >> c;
 }
 
+void vAufgabe_6a()
+{
+	static std::mt19937 device(0);
+	std::uniform_int_distribution<int> dist(1, 10);
+
+	vertagt::VListe<int> testList;
+
+	for (int i = 0; i<10; i++)
+	{
+		testList.push_back(dist(device));
+	}
+
+	testList.vAktualisieren();
+
+	std::cout << "Printout initial List" << std::endl;
+	for (auto& it : testList)
+	{
+		std::cout << it << '\t';
+	}
+	std::cout << std::endl;
+
+	for (auto it = testList.begin(); it != testList.end(); it++)
+	{
+		if (*it > 5) testList.erase(it);
+	}
+
+	std::cout << "Printout after Erase but before vAktualisieren:" << std::endl;
+	for (auto& it : testList)
+	{
+		std::cout << it << '\t';
+	}
+	std::cout << std::endl;
+
+	testList.vAktualisieren();
+
+	std::cout << "Printout after vAktualisieren:" << std::endl;
+	for (auto& it : testList)
+	{
+		std::cout << it << '\t';
+	}
+	std::cout << std::endl;
+
+	testList.push_front(11);
+	testList.push_front(12);
+
+	testList.push_back(11);
+	testList.push_back(12);
+
+	testList.vAktualisieren();
+
+	std::cout << "Printout after adding 11, 12 elements to front and back:" << std::endl;
+	for (auto& it : testList)
+	{
+		std::cout << it << '\t';
+	}
+	std::cout << std::endl;
+}
+
 int main()
 {
 	vAufgabe_6();
 	return 0;
 }
+
+
+

@@ -36,23 +36,21 @@ void Weg::vKopf()
 
 void Weg::vSimulieren()
 {
-	bool notDone = true;
-	while (notDone)
+	p_pFahrzeuge.vAktualisieren();
+	for (auto& it : p_pFahrzeuge)
 	{
 		try
 		{
-			for (auto& it : p_pFahrzeuge)
-			{
-				it->vSimulieren();
-				it->vZeichnen(*this);
-			}
-			notDone = false;
+			it->vSimulieren();
+			it->vZeichnen(*this);
 		}
 		catch (Fahrausnahme& ex)
 		{
+			it->vZeichnen(*this);
 			ex.vBearbeiten();
 		}
 	}
+	p_pFahrzeuge.vAktualisieren();
 }
 
 void Weg::vAusgeben(std::ostream& out) const
@@ -66,12 +64,9 @@ void Weg::vAusgeben(std::ostream& out) const
 	out << std::setw(LAENGE_WIDTH) << std::setprecision(2) << std::setiosflags(std::ios::fixed) << p_dLaenge;
 	out << std::setw(SEPERATOR_WIDTH) << ' ';
 	out << std::setw(1) << '(';
-	int fahrzeugAmount = p_pFahrzeuge.size();
-	for (auto& it : p_pFahrzeuge)
+	for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++)
 	{
-		out << it->getName();
-		if (--fahrzeugAmount > 0)
-			out << std::setw(2) << ", ";
+		out << it->get()->getName() <<  ' ';
 	}
 	out << std::setw(1) << ')';
 
@@ -90,13 +85,13 @@ void Weg::vFahrzeugeAusgeben() const
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fzg)
 {
 	fzg->vNeueStrecke(*this);
-	p_pFahrzeuge.push_back(move(fzg));
+	p_pFahrzeuge.push_back(std::move(fzg));
 }
 
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fzg, double StartZeit)
 {
 	fzg->vNeueStrecke(*this, StartZeit);
-	p_pFahrzeuge.push_front(move(fzg));
+	p_pFahrzeuge.push_front(std::move(fzg));
 }
 
 double Weg::getLaenge() const
