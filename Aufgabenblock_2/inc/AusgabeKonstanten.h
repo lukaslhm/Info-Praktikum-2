@@ -1,5 +1,9 @@
 #pragma once
 
+/**
+ * Globale Definition der Größen für die Ausgabe. Dadurch können die Konstanten in allen Klassen verwendet werden und die Ausgabe ist einheitlich.
+ */
+
 #define SEPERATOR_WIDTH 3
 
 // Simulationsobjekt
