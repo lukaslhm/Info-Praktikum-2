@@ -34,12 +34,14 @@ double Fahren::dStrecke(Fahrzeug& aFzg, double dZeitIntervall)
 	{
 		throw Streckenende(aFzg, p_pWeg);
 	}
-	if (aFzg.getAbschnittStrecke() + tempStrecke > p_pWeg.getVirtuelleSchranke())
+	else if (aFzg.getAbschnittStrecke() + tempStrecke > p_pWeg.getVirtuelleSchranke())
 	{
 		tempStrecke = p_pWeg.getVirtuelleSchranke() - aFzg.getAbschnittStrecke();
 	}
-
-	p_pWeg.setVirtuelleSchranke(aFzg.getAbschnittStrecke() + tempStrecke);
+	else
+	{
+		p_pWeg.setVirtuelleSchranke(aFzg.getAbschnittStrecke() + tempStrecke);
+	}
 
 	return tempStrecke;
 }

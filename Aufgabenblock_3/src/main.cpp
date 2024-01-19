@@ -249,11 +249,12 @@ void vAufgabeBlock3Test()
 
 	//Fahrzeuge auf Hinweg aufnehmen
 	hinWeg.vAnnahme(std::make_unique<PKW>("PKW1", 50, 1, 500), 3);
+	hinWeg.vAnnahme(std::make_unique<PKW>("PKW5", 50, 1, 500), 3);
 	hinWeg.vAnnahme(std::make_unique<PKW>("PKW2", 100, 1, 500));
 	hinWeg.vAnnahme(std::make_unique<PKW>("PKW3", 45, 1, 500));
 	hinWeg.vAnnahme(std::make_unique<Fahrrad>("Fahrrad1", 30));
 
-	double dt = 0.1;
+	double dt = 0.2;
 
 	for (int i = 0; i<2; i++)
 	{

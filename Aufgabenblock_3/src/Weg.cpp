@@ -168,6 +168,7 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fzg)
 {
 	for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++)
 	{
+		if (*it == nullptr) continue;
 		if (*it->get() == fzg)
 		{
 			std::unique_ptr<Fahrzeug> tempFzg = std::move(*it);

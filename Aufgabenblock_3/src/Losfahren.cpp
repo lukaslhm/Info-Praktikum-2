@@ -28,10 +28,11 @@ Losfahren::~Losfahren()
  */
 void Losfahren::vBearbeiten()
 {
-	std::cout << "Losfahren-Ausnahme bei: " << std::endl;
+	std::cout << "Losfahren-Ausnahme bei: ";
 	std::cout << p_pFahrzeug.getName() << std::endl;
 	std::cout << "Startzeit: " << dGlobaleZeit << std::endl;
 	std::cout << "Startpunkt: " << p_pFahrzeug.getAbschnittStrecke() << std::endl;
 
-	p_pWeg.vAnnahme(p_pWeg.pAbgabe(p_pFahrzeug));
+	std::unique_ptr<Fahrzeug> temp = p_pWeg.pAbgabe(p_pFahrzeug);
+	p_pWeg.vAnnahme(std::move(temp));
 }
