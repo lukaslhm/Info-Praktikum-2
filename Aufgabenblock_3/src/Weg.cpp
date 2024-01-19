@@ -1,3 +1,5 @@
+#include <limits>
+
 #include "Weg.h"
 #include "Fahrzeug.h"
 #include "AusgabeKonstanten.h"
@@ -10,8 +12,8 @@
  * @param initLaenge Länge vom Weg
  * @param initTempolimit Tempolimit auf dem Weg, default ist ungebrezt
  */
-Weg::Weg(std::string initName, double initLaenge, Tempolimit initTempolimit)
-	: Simulationsobjekt(initName), p_dLaenge(initLaenge), p_eTempolimit(initTempolimit)
+Weg::Weg(std::string initName, double initLaenge, Tempolimit initTempolimit, bool ueberholverbot)
+	: Simulationsobjekt(initName), p_dLaenge(initLaenge), p_bUeberholverbot(ueberholverbot), p_eTempolimit(initTempolimit), p_dVirtuelleSchranke(std::numeric_limits<double>::infinity())
 {
 }
 
@@ -55,6 +57,7 @@ void Weg::vKopf()
 void Weg::vSimulieren()
 {
 	//Alle Fahrzeuge simulieren
+	if (p_bUeberholverbot) p_dVirtuelleSchranke = std::numeric_limits<double>::infinity();
 	p_pFahrzeuge.vAktualisieren();
 	for (auto& it : p_pFahrzeuge)
 	{
@@ -67,6 +70,7 @@ void Weg::vSimulieren()
 		catch (Fahrausnahme& ex)
 		{
 			//Fangen von Ausnahmen (Exceptions)
+			ex.
 			it->vZeichnen(*this);
 			ex.vBearbeiten();
 		}
@@ -175,4 +179,13 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fzg)
 	return std::unique_ptr<Fahrzeug>();
 }
 
+void Weg::setVirtuelleSchranke(double newValue)
+{
+	p_dVirtuelleSchranke = newValue;
+}
 
+double Weg::getVirtuelleSchranke() const
+{
+	if (p_bUeberholverbot) return p_dVirtuelleSchranke;
+	else return std::numeric_limits<double>::infinity();
+}

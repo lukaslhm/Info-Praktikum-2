@@ -30,8 +30,8 @@ public:
 
 protected:
 	///Protected Variabeln die alle Simulationsobjekte besitzen
-	double p_dZeit;
 	std::string p_sName;
+	double p_dZeit;
 	int p_iID;
 
 private:

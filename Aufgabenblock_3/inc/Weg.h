@@ -17,7 +17,7 @@ public:
 	///Default konstruktor
 	Weg() = default;
 	///Konstruktor mit Name, Länge und Tempolimit. Tempolimit ist ald default unbegrenzt
-	Weg(std::string initName, double initLaenge, Tempolimit initTempolimit = Tempolimit::Autobahn);
+	Weg(std::string initName, double initLaenge, Tempolimit initTempolimit = Tempolimit::Autobahn, bool ueberholverbot = true);
 	///Destruktor
 	~Weg();
 
@@ -39,15 +39,22 @@ public:
 	///Fahrzeug in der Liste der aktuellen Fahrzeuge suchen, löschen und zurückgeben
 	std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fzg);
 
+	void setVirtuelleSchranke(double newValue);
+
 	///Rückgabe des Tempolimits auf der Straße
 	double getTempolimit() const;
 	///Rückgabe von der Straßenlänge
 	double getLaenge() const;
 
+	double getVirtuelleSchranke() const;
+
 private:
 	///Eigenschaften vom Weg
 	double p_dLaenge;
 	vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
+	bool p_bUeberholverbot;
 	Tempolimit p_eTempolimit;
+	double p_dVirtuelleSchranke;
+
 };
 

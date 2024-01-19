@@ -239,8 +239,8 @@ void vAufgabeBlock3Test()
 	bInitialisiereGrafik(800, 500);
 
 	//Hin- und Rückweg definieren
-	Weg hinWeg("Hin", 500, Tempolimit::Innerorts);
-	Weg rueckWeg("Ruck", 500, Tempolimit::Innerorts);
+	Weg hinWeg("Hin", 500, Tempolimit::Landstrasse);
+	Weg rueckWeg("Ruck", 500, Tempolimit::Landstrasse);
 
 	int coords[4] = {100, 100, 300, 300};
 
@@ -250,6 +250,7 @@ void vAufgabeBlock3Test()
 	//Fahrzeuge auf Hinweg aufnehmen
 	hinWeg.vAnnahme(std::make_unique<PKW>("PKW1", 50, 1, 500), 3);
 	hinWeg.vAnnahme(std::make_unique<PKW>("PKW2", 100, 1, 500));
+	hinWeg.vAnnahme(std::make_unique<PKW>("PKW3", 45, 1, 500));
 	hinWeg.vAnnahme(std::make_unique<Fahrrad>("Fahrrad1", 30));
 
 	double dt = 0.1;
@@ -268,7 +269,7 @@ void vAufgabeBlock3Test()
 
 			dGlobaleZeit += dt;
 		}
-		hinWeg.vAnnahme(std::make_unique<PKW>("PKW3", 100, 1, 500), 23);
+		hinWeg.vAnnahme(std::make_unique<PKW>("PKW4", 100, 1, 500), 23);
 	}
 
 	char c;

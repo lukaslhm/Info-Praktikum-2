@@ -31,8 +31,15 @@ double Fahren::dStrecke(Fahrzeug& aFzg, double dZeitIntervall)
 {
 	double tempStrecke = Verhalten::dStrecke(aFzg, dZeitIntervall);
 	if (abs(tempStrecke) < 3 * std::numeric_limits<double>::min()) 
-	{ 
+	{
 		throw Streckenende(aFzg, p_pWeg);
 	}
+	if (aFzg.getAbschnittStrecke() + tempStrecke > p_pWeg.getVirtuelleSchranke())
+	{
+		tempStrecke = p_pWeg.getVirtuelleSchranke() - aFzg.getAbschnittStrecke();
+	}
+
+	p_pWeg.setVirtuelleSchranke(aFzg.getAbschnittStrecke() + tempStrecke);
+
 	return tempStrecke;
 }

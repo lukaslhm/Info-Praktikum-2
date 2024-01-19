@@ -10,7 +10,7 @@ int Simulationsobjekt::p_iMaxID = 0;
  * @param initName Name für das Simulationsobjekt, standardmäßig leer
  */
 Simulationsobjekt::Simulationsobjekt(std::string initName)
-	: p_sName(initName), p_iID(p_iMaxID++), p_dZeit(0)
+	: p_sName(initName), p_dZeit(0), p_iID(p_iMaxID++)
 {
 	std::cout << "Simulationsobjekt erstellt: " << p_sName << " - " << p_iID << std::endl;
 }
