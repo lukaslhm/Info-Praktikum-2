@@ -70,7 +70,6 @@ void Weg::vSimulieren()
 		catch (Fahrausnahme& ex)
 		{
 			//Fangen von Ausnahmen (Exceptions)
-			ex.
 			it->vZeichnen(*this);
 			ex.vBearbeiten();
 		}
