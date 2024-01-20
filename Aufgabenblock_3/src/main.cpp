@@ -11,6 +11,8 @@
 #include "Weg.h"
 #include "vertagt_liste.h"
 
+#include "Kreuzung.h"
+
 double dGlobaleZeit = 0;
 
 
@@ -277,9 +279,70 @@ void vAufgabeBlock3Test()
 	std::cin >> c;
 }
 
+void vAufgabe_7()
+{
+	bInitialisiereGrafik(1280, 720);
+
+	auto Kr1 = std::make_shared<Kreuzung>("Kr1", 100);
+	auto Kr2 = std::make_shared<Kreuzung>("Kr2", 100);
+	auto Kr3 = std::make_shared<Kreuzung>("Kr3", 100);
+	auto Kr4 = std::make_shared<Kreuzung>("Kr4", 100);
+
+	bZeichneKreuzung(680, 40);
+	bZeichneKreuzung(680, 300);
+	bZeichneKreuzung(680, 570);
+	bZeichneKreuzung(320, 300);
+
+	Kreuzung::vVerbinde("W12", "W21", 40, Kr1, Kr2, Tempolimit::Innerorts, true);
+	Kreuzung::vVerbinde("W23a", "W32a", 115, Kr2, Kr3, Tempolimit::Autobahn, false);
+	Kreuzung::vVerbinde("W23b", "W32b", 40, Kr2, Kr3, Tempolimit::Innerorts, true);
+	Kreuzung::vVerbinde("W24", "W42", 55, Kr2, Kr4, Tempolimit::Innerorts, true);
+	Kreuzung::vVerbinde("W34", "W43", 85, Kr3, Kr4, Tempolimit::Autobahn, false);
+	Kreuzung::vVerbinde("W44a", "W44b", 130, Kr4, Kr4, Tempolimit::Landstrasse, false);
+
+	int coords1[4] = {680, 40, 680, 300};
+	bZeichneStrasse("W12", "W21", 40, 2, coords1);
+
+	int coords2[12] = {680, 300, 850, 300, 970, 390, 970, 500, 850, 570, 680, 570};
+	bZeichneStrasse("W23a", "W32a", 115, 6, coords2);
+
+	int coords3[4] = {680, 300, 680, 570};
+	bZeichneStrasse("W23b", "W32b", 40, 2, coords3);
+
+	int coords4[4] = {680, 300, 320, 300};
+	bZeichneStrasse("W24", "W42", 55, 2, coords4);
+
+	int coords5[10] = {680, 570, 500, 570, 350, 510, 320, 420, 320, 300};
+	bZeichneStrasse("W34", "W43", 85, 5, coords5);
+
+	int coords6[14] = {320, 300, 320, 150, 200, 60, 80, 90, 70, 250, 170, 300, 320, 300};
+	bZeichneStrasse("W44a", "W44b", 130, 7, coords6);
+
+	Kr1->vAnnahme(std::make_unique<PKW>("PKW1", 150, 0, 55), 0);
+	Kr1->vAnnahme(std::make_unique<Fahrrad>("Rad1", 30), 3);
+	Kr1->vAnnahme(std::make_unique<PKW>("PKW2", 100, 0, 55), 6);
+	Kr1->vAnnahme(std::make_unique<PKW>("PKW3", 90, 0, 55), 9);
+
+	double eps = 0.05;
+
+	for (dGlobaleZeit = 0; dGlobaleZeit < 30; dGlobaleZeit += eps)
+	{
+		Kr1->vSimulieren();
+		Kr2->vSimulieren();
+		Kr3->vSimulieren();
+		Kr4->vSimulieren();
+
+		std::cout << "Zeit: " << dGlobaleZeit << std::endl;
+		vSetzeZeit(dGlobaleZeit);
+	}
+
+	char c;
+	std::cin >> c;
+}
+
 int main()
 {
-	vAufgabeBlock3Test();
+	vAufgabe_7();
 	return 0;
 }
 

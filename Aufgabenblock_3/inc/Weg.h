@@ -10,6 +10,7 @@
 #include "vertagt_liste.h"
 
 class Fahrzeug;
+class Kreuzung;
 
 class Weg : public Simulationsobjekt
 {
@@ -17,7 +18,7 @@ public:
 	///Default konstruktor
 	Weg() = default;
 	///Konstruktor mit Name, Länge und Tempolimit. Tempolimit ist ald default unbegrenzt
-	Weg(std::string initName, double initLaenge, Tempolimit initTempolimit = Tempolimit::Autobahn, bool ueberholverbot = true);
+	Weg(std::string initName, double initLaenge, Tempolimit initTempolimit = Tempolimit::Autobahn, bool ueberholverbot = true, std::weak_ptr<Kreuzung> zielKreuzung = std::weak_ptr<Kreuzung>());
 	///Destruktor
 	~Weg();
 
@@ -41,6 +42,7 @@ public:
 
 	void setVirtuelleSchranke(double newValue);
 
+	void setRueckWeg(std::weak_ptr<Weg> rueckWeg);
 	///Rückgabe des Tempolimits auf der Straße
 	double getTempolimit() const;
 	///Rückgabe von der Straßenlänge
@@ -48,13 +50,19 @@ public:
 
 	double getVirtuelleSchranke() const;
 
+	std::shared_ptr<Kreuzung> getZielKreuzung() const;
+	std::shared_ptr<Weg> getRuckWeg() const;
+
 private:
 	///Eigenschaften vom Weg
-	double p_dLaenge;
+	double p_dLaenge = 0;
 	vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
-	bool p_bUeberholverbot;
-	Tempolimit p_eTempolimit;
-	double p_dVirtuelleSchranke;
+	bool p_bUeberholverbot = true;
+	Tempolimit p_eTempolimit = Tempolimit::Autobahn;
+	double p_dVirtuelleSchranke = 0;
+
+	std::weak_ptr<Weg> p_pRueckWeg;
+	const std::weak_ptr<Kreuzung> p_pZielKreuzung = std::weak_ptr<Kreuzung>();
 
 };
 

@@ -4,6 +4,7 @@
 #include "Fahrzeug.h"
 #include "AusgabeKonstanten.h"
 #include "Fahrausnahme.h"
+#include "Kreuzung.h"
 
 /**
  * Konstruktor für den Weg
@@ -12,8 +13,8 @@
  * @param initLaenge Länge vom Weg
  * @param initTempolimit Tempolimit auf dem Weg, default ist ungebrezt
  */
-Weg::Weg(std::string initName, double initLaenge, Tempolimit initTempolimit, bool ueberholverbot)
-	: Simulationsobjekt(initName), p_dLaenge(initLaenge), p_bUeberholverbot(ueberholverbot), p_eTempolimit(initTempolimit), p_dVirtuelleSchranke(std::numeric_limits<double>::infinity())
+Weg::Weg(std::string initName, double initLaenge, Tempolimit initTempolimit, bool ueberholverbot, std::weak_ptr<Kreuzung> zielKreuzung)
+	: Simulationsobjekt(initName), p_dLaenge(initLaenge), p_bUeberholverbot(ueberholverbot), p_eTempolimit(initTempolimit), p_dVirtuelleSchranke(std::numeric_limits<double>::infinity()), p_pZielKreuzung(zielKreuzung)
 {
 }
 
@@ -184,8 +185,23 @@ void Weg::setVirtuelleSchranke(double newValue)
 	p_dVirtuelleSchranke = newValue;
 }
 
+void Weg::setRueckWeg(std::weak_ptr<Weg> rueckWeg)
+{
+	p_pRueckWeg = rueckWeg;
+}
+
 double Weg::getVirtuelleSchranke() const
 {
 	if (p_bUeberholverbot) return p_dVirtuelleSchranke;
 	else return std::numeric_limits<double>::infinity();
+}
+
+std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const
+{
+	return p_pZielKreuzung.lock();
+}
+
+std::shared_ptr<Weg> Weg::getRuckWeg() const
+{
+	return p_pRueckWeg.lock();
 }
