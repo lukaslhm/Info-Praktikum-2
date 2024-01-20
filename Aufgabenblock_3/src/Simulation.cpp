@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "SimuClient.h"
 #include "Simulation.h"
 #include "Kreuzung.h"
 #include "Weg.h"
@@ -14,8 +15,10 @@
 #include "Fahrrad.h"
 #include "Constants.h"
 
-void Simulation::vEinlesen(std::istream &in)
+void Simulation::vEinlesen(std::istream &in, bool bMitGrafik)
 {
+	p_bMitGrafik = bMitGrafik;
+	if (bMitGrafik) bInitialisiereGrafik(1920, 1080);
 	unsigned int linecount = 0;
 	while(!in.eof())
 	{
@@ -34,6 +37,14 @@ void Simulation::vEinlesen(std::istream &in)
 				throw std::runtime_error(errmsg.str());
 			}
 			p_pKreuzungen[Kr.get()->getName()] = Kr;
+
+			if(bMitGrafik)
+			{
+				int x;
+				int y;
+				in >> x >> y;
+				bZeichneKreuzung(x, y);
+			}
 		}
 
 		else if (keyword == STREET)
@@ -44,10 +55,26 @@ void Simulation::vEinlesen(std::istream &in)
 			std::string NameW2;
 			double Laenge;
 			int TLimitInt;
+			int UeberholverbotInt;
 			bool Ueberholverbot;
 			Tempolimit TLimit = Tempolimit::Autobahn;
 
-			in >> NameQ >> NameZ >> NameW1 >> NameW2 >> Laenge >> TLimitInt >> Ueberholverbot;
+			in >> NameQ >> NameZ >> NameW1 >> NameW2 >> Laenge >> TLimitInt >> UeberholverbotInt;
+
+			switch(UeberholverbotInt)
+			{
+			case 0:
+				Ueberholverbot = false;
+				break;
+			case 1:
+				Ueberholverbot = true;
+				break;
+			default:
+				std::stringstream errmsg;
+				errmsg << "Line: " << linecount << " - Ueberholverbot corrupted got: " << UeberholverbotInt;
+				throw std::runtime_error(errmsg.str());
+				break;
+			}
 
 			switch(TLimitInt)
 			{
@@ -80,6 +107,23 @@ void Simulation::vEinlesen(std::istream &in)
 			}
 
 			Kreuzung::vVerbinde(NameW1, NameW2, Laenge, p_pKreuzungen[NameQ], p_pKreuzungen[NameZ], TLimit, Ueberholverbot);
+
+			if (bMitGrafik)
+			{
+				int anzahlCoords;
+				in >> anzahlCoords;
+
+				int* coords = new int[anzahlCoords * 2];
+
+				for (int i = 0; i<anzahlCoords; i++)
+				{
+					in >> coords[i*2];
+					in >> coords[i*2+1];
+				}
+
+				bZeichneStrasse(NameW1, NameW2, Laenge, anzahlCoords, coords);
+				delete[] coords;
+			}
 		}
 
 		else if (keyword == CAR)
@@ -126,16 +170,11 @@ void Simulation::vSimulieren(double dDauer, double dZeitschritt)
 {
 	for (dGlobaleZeit = 0; dGlobaleZeit <= dDauer; dGlobaleZeit += dZeitschritt)
 	{
+		vSetzeZeit(dGlobaleZeit);
 		std::cout << "Zeit: " << dGlobaleZeit << std::endl;
 		for (auto& it : p_pKreuzungen)
 		{
 			it.second->vSimulieren();
 		}
 	}
-}
-
-std::istream& operator>>(std::istream &in, Simulation& simu)
-{
-	simu.vEinlesen(in);
-	return in;
 }

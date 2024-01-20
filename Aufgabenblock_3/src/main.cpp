@@ -381,7 +381,25 @@ void vAufgabe_9()
 
 	try
 	{
-		infile >> simu;
+		simu.vEinlesen(infile);
+	}
+	catch(std::runtime_error& ex)
+	{
+		std::cout << ex.what() << std::endl;
+		exit(-1);
+	}
+}
+
+void vAufgabe_9a()
+{
+	Simulation simu;
+
+	const std::string& filename = "SimuDisplay.dat";
+	std::ifstream infile(filename);
+
+	try
+	{
+		simu.vEinlesen(infile, true);
 	}
 	catch(std::runtime_error& ex)
 	{
@@ -389,11 +407,15 @@ void vAufgabe_9()
 		exit(-1);
 	}
 
+	simu.vSimulieren(40, 0.1);
+
+	char c;
+	std::cin >> c;
 }
 
 int main()
 {
-	vAufgabe_9();
+	vAufgabe_9a();
 	return 0;
 }
 

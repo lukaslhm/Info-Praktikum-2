@@ -108,4 +108,5 @@ void PKW::vEinlesen(std::istream &in)
 {
 	Fahrzeug::vEinlesen(in);
 	in >> p_dVerbrauch >> p_dTankvolumen;
+	p_dTankinhalt = p_dTankvolumen/2;
 }
