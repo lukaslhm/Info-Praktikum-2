@@ -19,6 +19,7 @@ public:
 
 	///Ausgabefunktion
 	virtual void vAusgeben(std::ostream& out) const;
+	virtual void vEinlesen(std::istream& in);
 	///Simulationsfunktion, simuliert bis zur aktuellen Zeit. Rein virtuell
 	virtual void vSimulieren() = 0;
 
@@ -41,3 +42,4 @@ private:
 
 ///Überladung des Ausgabeoperators um Simulationsobjekte mit cout ausgeben zu können
 std::ostream& operator<<(std::ostream& out, const Simulationsobjekt& inst);
+std::istream& operator>>(std::istream& in, Simulationsobjekt& inst);

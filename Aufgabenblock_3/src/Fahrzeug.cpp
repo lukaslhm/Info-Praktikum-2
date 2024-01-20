@@ -4,8 +4,8 @@
  *  Created on: 15.10.2023
  */
 
+#include <Constants.h>
 #include "Fahrzeug.h"
-#include <AusgabeKonstanten.h>
 #include "Verhalten.h"
 #include "Weg.h"
 #include "Fahren.h"
@@ -189,4 +189,10 @@ Fahrzeug& Fahrzeug::operator=(const Fahrzeug& oprnd)
 	p_sName = oprnd.p_sName;
 	p_dMaxGeschwindigkeit = oprnd.p_dMaxGeschwindigkeit;
 	return *this;
+}
+
+void Fahrzeug::vEinlesen(std::istream &in)
+{
+	Simulationsobjekt::vEinlesen(in);
+	in >> p_dMaxGeschwindigkeit;
 }

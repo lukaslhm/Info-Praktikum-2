@@ -1,5 +1,8 @@
+#include <Constants.h>
+#include <stdexcept>
+
 #include "Simulationsobjekt.h"
-#include "AusgabeKonstanten.h"
+
 
 //Initialisierung der maximalen (nächsten) ID
 int Simulationsobjekt::p_iMaxID = 0;
@@ -76,4 +79,16 @@ std::ostream& operator<<(std::ostream& out, const Simulationsobjekt& inst)
 {
 	inst.vAusgeben(out);
 	return out;
+}
+
+void Simulationsobjekt::vEinlesen(std::istream &in)
+{
+	if (p_sName != "") throw std::runtime_error("Einleseobjekt nicht leer");
+	in >> p_sName;
+}
+
+std::istream& operator>>(std::istream &in, Simulationsobjekt &inst)
+{
+	inst.vEinlesen(in);
+	return in;
 }

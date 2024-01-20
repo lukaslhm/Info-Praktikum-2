@@ -26,3 +26,9 @@
 
 // Streckenende
 #define LINKESPALTE_W 10
+
+// file input Constants
+#define INTERSECTION "KREUZUNG"
+#define STREET "STRASSE"
+#define CAR "PKW"
+#define BIKE "FAHRRAD"

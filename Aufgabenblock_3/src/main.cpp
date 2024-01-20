@@ -1,6 +1,8 @@
 #include <vector>
 #include <memory>
 #include <random>
+#include <fstream>
+#include <stdexcept>
 
 #include "SimuClient.h"
 
@@ -12,6 +14,7 @@
 #include "vertagt_liste.h"
 
 #include "Kreuzung.h"
+#include "Simulation.h"
 
 double dGlobaleZeit = 0;
 
@@ -340,9 +343,57 @@ void vAufgabe_7()
 	std::cin >> c;
 }
 
+void vAufgabe_8()
+{
+	const std::string& filename = "VO.dat";
+	std::ifstream infile(filename);
+
+	Weg w1("w1", 200);
+
+	PKW pkw1;
+	Fahrrad rad1("hi", 50);
+	Kreuzung Kr1;
+
+	pkw1.vNeueStrecke(w1);
+	rad1.vNeueStrecke(w1);
+
+	try
+	{
+		infile >> pkw1;
+		infile >> rad1;
+		infile >> Kr1;
+	}
+	catch (std::runtime_error& re)
+	{
+		std::cout << re.what() << std::endl;
+		exit(-1);
+	}
+
+	std::cout << pkw1 << std::endl << rad1 << std::endl << Kr1 << std::endl;
+}
+
+void vAufgabe_9()
+{
+	Simulation simu;
+
+	const std::string& filename = "Simu.dat";
+	std::ifstream infile(filename);
+
+	try
+	{
+		infile >> simu;
+	}
+	catch(std::runtime_error& ex)
+	{
+		std::cout << ex.what() << std::endl;
+		exit(-1);
+	}
+
+}
+
 int main()
 {
-	vAufgabe_7();
+	vAufgabe_9();
 	return 0;
 }
 

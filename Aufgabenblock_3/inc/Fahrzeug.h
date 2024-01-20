@@ -33,6 +33,8 @@ public:
 	///Ausgabefunktion für die Eigenschaften des Fahrzeugs
 	virtual void vAusgeben(std::ostream& out) const override;
 
+	virtual void vEinlesen(std::istream& in) override;
+
 	///Simulationsfunktion zum Simulieren vom Verhalten
 	virtual void vSimulieren() override;
 

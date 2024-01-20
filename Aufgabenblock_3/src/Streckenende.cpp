@@ -1,3 +1,4 @@
+#include <Constants.h>
 #include <iostream>
 #include <iomanip>
 
@@ -5,7 +6,6 @@
 #include "Weg.h"
 #include "Streckenende.h"
 #include "Kreuzung.h"
-#include "AusgabeKonstanten.h"
 
 /**
  * Konstruktor für die Ausnahme Streckenende, wird benutzt wenn ein Fahrzeug am Ende von einem Weg angekommen ist.

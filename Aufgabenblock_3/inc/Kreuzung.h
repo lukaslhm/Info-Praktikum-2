@@ -19,7 +19,7 @@ class Fahrzeug;
 class Kreuzung : public Simulationsobjekt
 {
 public:
-	Kreuzung(std::string initName, double Tankstelle = 0.0);
+	Kreuzung(std::string initName = "", double Tankstelle = 0.0);
 	~Kreuzung();
 
 	static void vVerbinde(
@@ -37,6 +37,8 @@ public:
 	void vTanken(Fahrzeug& fzg);
 
 	void vAnnahme(std::unique_ptr<Fahrzeug> fzg, double startZeit);
+
+	void vEinlesen(std::istream& in) override;
 
 	void vSimulieren();
 

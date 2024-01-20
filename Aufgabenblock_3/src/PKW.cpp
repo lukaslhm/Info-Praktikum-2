@@ -1,6 +1,6 @@
+#include <Constants.h>
 #include "PKW.h"
 #include "Verhalten.h"
-#include "AusgabeKonstanten.h"
 #include "SimuClient.h"
 #include "Weg.h"
 
@@ -104,6 +104,8 @@ void PKW::vZeichnen(const Weg &weg)
 	bZeichnePKW(getName(), weg.getName(), (double) p_dAbschnittStrecke / weg.getLaenge(), dGeschwindigkeit(), p_dTankinhalt);
 }
 
-
-
-
+void PKW::vEinlesen(std::istream &in)
+{
+	Fahrzeug::vEinlesen(in);
+	in >> p_dVerbrauch >> p_dTankvolumen;
+}

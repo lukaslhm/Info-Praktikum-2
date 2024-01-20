@@ -1,8 +1,8 @@
+#include <Constants.h>
 #include <limits>
 
 #include "Weg.h"
 #include "Fahrzeug.h"
-#include "AusgabeKonstanten.h"
 #include "Fahrausnahme.h"
 #include "Kreuzung.h"
 

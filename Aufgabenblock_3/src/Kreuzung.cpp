@@ -85,6 +85,12 @@ std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(Weg& anfahrt)
 	return result;
 }
 
+void Kreuzung::vEinlesen(std::istream &in)
+{
+	Simulationsobjekt::vEinlesen(in);
+	in >> p_dTankstelle;
+}
+
 double Kreuzung::getTankstellenInhalt() const
 {
 	return p_dTankstelle;
