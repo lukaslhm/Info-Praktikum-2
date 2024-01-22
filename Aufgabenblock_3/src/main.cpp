@@ -415,7 +415,6 @@ void vAufgabe_9a()
 
 int main()
 {
-	std::cout << abs(-5.5) << std::endl;
 	vAufgabe_9a();
 	return 0;
 }
