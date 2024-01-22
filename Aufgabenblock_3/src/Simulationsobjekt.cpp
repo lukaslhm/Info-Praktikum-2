@@ -1,4 +1,4 @@
-#include <Constants.h>
+#include "Constants.h"
 #include <stdexcept>
 
 #include "Simulationsobjekt.h"
@@ -81,12 +81,19 @@ std::ostream& operator<<(std::ostream& out, const Simulationsobjekt& inst)
 	return out;
 }
 
+/**
+ * Einlesefunktion um Dateien einlesen zu können.
+ * Übernimmt die Daten nur wenn das Objekt vorher leer ist
+ * @param in Eingabestream (von der Datei)
+ */
+
 void Simulationsobjekt::vEinlesen(std::istream &in)
 {
-	if (p_sName != "") throw std::runtime_error("Einleseobjekt nicht leer");
+	if (p_sName != "") throw std::runtime_error("Einleseobjekt nicht leer");//Prüfen ob das Simulationsobjekt leer ist
 	in >> p_sName;
 }
 
+//Überladen des eingabeoperators
 std::istream& operator>>(std::istream &in, Simulationsobjekt &inst)
 {
 	inst.vEinlesen(in);

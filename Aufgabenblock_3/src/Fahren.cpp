@@ -2,6 +2,7 @@
 #include "Fahrzeug.h"
 #include "Weg.h"
 #include "Streckenende.h"
+#include <cmath>
 
 /**
  * Konstruktor für das Verhalten Fahren
@@ -30,17 +31,17 @@ Fahren::~Fahren()
 double Fahren::dStrecke(Fahrzeug& aFzg, double dZeitIntervall)
 {
 	double tempStrecke = Verhalten::dStrecke(aFzg, dZeitIntervall);
-	if (abs(tempStrecke) < 3 * std::numeric_limits<double>::min()) 
+	if (fabs(tempStrecke) < 3 * std::numeric_limits<double>::min()) //Fahrzeug ist am Ende vom Weg angekommen
 	{
-		throw Streckenende(aFzg, p_pWeg);
+		throw Streckenende(aFzg, p_pWeg); //Exception werfen
 	}
-	else if (aFzg.getAbschnittStrecke() + tempStrecke > p_pWeg.getVirtuelleSchranke())
+	else if (aFzg.getAbschnittStrecke() + tempStrecke > p_pWeg.getVirtuelleSchranke()) //Auf dem Streckenabschnitt ist kein vorrausfahrendes Fahrzeug oder das Fahrzeug ist weit genug entfernt
 	{
 		tempStrecke = p_pWeg.getVirtuelleSchranke() - aFzg.getAbschnittStrecke();
 	}
-	else
+	else //Vor dem Fahrzeug befindet sich ein Fahrzeug das nicht überholt werden darf
 	{
-		p_pWeg.setVirtuelleSchranke(aFzg.getAbschnittStrecke() + tempStrecke);
+		p_pWeg.setVirtuelleSchranke(aFzg.getAbschnittStrecke() + tempStrecke); //Differenzstrecke zu dem Fahreug
 	}
 
 	return tempStrecke;

@@ -1,4 +1,4 @@
-#include <Constants.h>
+#include "Constants.h"
 #include <iostream>
 #include <iomanip>
 
@@ -34,14 +34,15 @@ void Streckenende::vBearbeiten()
 {
 	if (p_pWeg.getZielKreuzung() == nullptr)
 	{
-		p_pWeg.pAbgabe(p_pFahrzeug);
+		p_pWeg.pAbgabe(p_pFahrzeug); //Wenn der Weg nicht weitergeht Fahrzeug wegwerfen
 	}
 	else
 	{
-		std::shared_ptr<Weg> tempNewWeg = p_pWeg.getZielKreuzung()->pZufaelligerWeg(p_pWeg);
+		std::shared_ptr<Weg> tempNewWeg = p_pWeg.getZielKreuzung()->pZufaelligerWeg(p_pWeg); //Zufälligen Weg zur Weiterfahrt wählen
 
 		auto oldPrec = std::cout.precision();
 
+		//Ausgabe der aktuellen Eigenschaften
 		std::cout << "Streckenende-Ausnahme:" << std::endl;
 
 		std::cout << std::left;
@@ -64,8 +65,8 @@ void Streckenende::vBearbeiten()
 		Fahrzeug::vKopf();
 		std::cout << p_pFahrzeug << std::endl;
 
-		std::unique_ptr<Fahrzeug> tempFzg = p_pWeg.pAbgabe(p_pFahrzeug);
-		p_pWeg.getZielKreuzung()->vTanken(p_pFahrzeug);
-		tempNewWeg->vAnnahme(std::move(tempFzg));
+		std::unique_ptr<Fahrzeug> tempFzg = p_pWeg.pAbgabe(p_pFahrzeug); //Fahrzeug vom alten Weg nehmen
+		 p_pWeg.getZielKreuzung()->vTanken(*tempFzg.get()); //Fahrzeug tanken
+		tempNewWeg->vAnnahme(std::move(tempFzg)); //Fahrzeug auf neuen Weg bringen
 	}
 }

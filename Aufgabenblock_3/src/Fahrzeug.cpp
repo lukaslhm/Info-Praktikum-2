@@ -4,12 +4,13 @@
  *  Created on: 15.10.2023
  */
 
-#include <Constants.h>
+#include "Constants.h"
 #include "Fahrzeug.h"
 #include "Verhalten.h"
 #include "Weg.h"
 #include "Fahren.h"
 #include "Parken.h"
+#include <cmath>
 
 /**
  * Konstruktor vom Fahrzeug
@@ -92,7 +93,7 @@ void Fahrzeug::vSimulieren()
 	//Berechnen der noch nicht simulierten Zeit
 	double dt = dGlobaleZeit - p_dZeit;
 	//Schutz vor Doppeltsimulierung
-	if (abs(dt) < 3 * std::numeric_limits<double>::min()) { std::cout << "Fahrzeug doppelt simuliert: (" << p_sName << ", " << p_iID << ')' << std::endl; return; }
+	if (fabs(dt) < 3 * std::numeric_limits<double>::min()) { std::cout << "Fahrzeug doppelt simuliert: (" << p_sName << ", " << p_iID << ')' << std::endl; return; }
 	p_dZeit = dGlobaleZeit;
 	p_dGesamtZeit += dt;
 
@@ -191,8 +192,12 @@ Fahrzeug& Fahrzeug::operator=(const Fahrzeug& oprnd)
 	return *this;
 }
 
+/**
+ * Daten aus Stream (von Datei) in Fahrzeug einlesen um die Eigenschaften zu setzen
+ * @param in
+ */
 void Fahrzeug::vEinlesen(std::istream &in)
 {
-	Simulationsobjekt::vEinlesen(in);
-	in >> p_dMaxGeschwindigkeit;
+	Simulationsobjekt::vEinlesen(in); //Nutzen vom Partentobjekt
+	in >> p_dMaxGeschwindigkeit; //Zusaätzlich noch die maximale Geschwindigkeit
 }
