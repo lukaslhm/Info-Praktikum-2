@@ -1,4 +1,4 @@
-#include <Constants.h>
+#include "Constants.h"
 #include "PKW.h"
 #include "Verhalten.h"
 #include "SimuClient.h"
@@ -103,7 +103,10 @@ void PKW::vZeichnen(const Weg &weg)
 {
 	bZeichnePKW(getName(), weg.getName(), (double) p_dAbschnittStrecke / weg.getLaenge(), dGeschwindigkeit(), p_dTankinhalt);
 }
-
+/**
+ * Überladen der Einlesefunktion um die zusätzlichen Eigenschaften vom PKW zu speichern
+ * @param in Einlesestream (z.b. aus Datei)
+ */
 void PKW::vEinlesen(std::istream &in)
 {
 	Fahrzeug::vEinlesen(in);
