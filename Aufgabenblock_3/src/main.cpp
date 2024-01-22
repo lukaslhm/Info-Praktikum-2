@@ -238,7 +238,10 @@ void vAufgabe_6a()
 	}
 	std::cout << std::endl;
 }
-
+/**
+ * Testen der in Aufgabenblock 3 hinzugefügten funktionen
+ * Testen vom Überholverbot
+ */
 void vAufgabeBlock3Test()
 {
 	bInitialisiereGrafik(800, 500);
@@ -260,7 +263,7 @@ void vAufgabeBlock3Test()
 	hinWeg.vAnnahme(std::make_unique<Fahrrad>("Fahrrad1", 30));
 
 	double dt = 0.2;
-
+	//Simulieren
 	for (int i = 0; i<2; i++)
 	{
 		for (double t = 0; t < 20 * (1 + std::numeric_limits<double>::epsilon()); t += dt)
@@ -281,21 +284,28 @@ void vAufgabeBlock3Test()
 	char c;
 	std::cin >> c;
 }
-
+/**
+ * Testen der in 6.2 vorgegebenen Karte und der Tankfunktion an Kreuzungen
+ * Testen von Kreuzungen
+ */
 void vAufgabe_7()
 {
+
 	bInitialisiereGrafik(1280, 720);
 
+	//Kreuzungen initialisieren
 	auto Kr1 = std::make_shared<Kreuzung>("Kr1", 100);
 	auto Kr2 = std::make_shared<Kreuzung>("Kr2", 100);
 	auto Kr3 = std::make_shared<Kreuzung>("Kr3", 100);
 	auto Kr4 = std::make_shared<Kreuzung>("Kr4", 100);
 
+	//Kreuzungen zeichnen
 	bZeichneKreuzung(680, 40);
 	bZeichneKreuzung(680, 300);
 	bZeichneKreuzung(680, 570);
 	bZeichneKreuzung(320, 300);
 
+	//Wege erstellen und direkt mit den Kreuzungen verbinden
 	Kreuzung::vVerbinde("W12", "W21", 40, Kr1, Kr2, Tempolimit::Innerorts, true);
 	Kreuzung::vVerbinde("W23a", "W32a", 115, Kr2, Kr3, Tempolimit::Autobahn, false);
 	Kreuzung::vVerbinde("W23b", "W32b", 40, Kr2, Kr3, Tempolimit::Innerorts, true);
@@ -303,6 +313,7 @@ void vAufgabe_7()
 	Kreuzung::vVerbinde("W34", "W43", 85, Kr3, Kr4, Tempolimit::Autobahn, false);
 	Kreuzung::vVerbinde("W44a", "W44b", 130, Kr4, Kr4, Tempolimit::Landstrasse, false);
 
+	//Wege zeichnen
 	int coords1[4] = {680, 40, 680, 300};
 	bZeichneStrasse("W12", "W21", 40, 2, coords1);
 
@@ -321,6 +332,7 @@ void vAufgabe_7()
 	int coords6[14] = {320, 300, 320, 150, 200, 60, 80, 90, 70, 250, 170, 300, 320, 300};
 	bZeichneStrasse("W44a", "W44b", 130, 7, coords6);
 
+	//Fahrzeuge erstellen und auf Kreuzung 1 platzieren
 	Kr1->vAnnahme(std::make_unique<PKW>("PKW1", 150, 0, 55), 0);
 	Kr1->vAnnahme(std::make_unique<Fahrrad>("Rad1", 30), 3);
 	Kr1->vAnnahme(std::make_unique<PKW>("PKW2", 100, 0, 55), 6);
@@ -328,6 +340,7 @@ void vAufgabe_7()
 
 	double eps = 0.05;
 
+	//Simulieren
 	for (dGlobaleZeit = 0; dGlobaleZeit < 30; dGlobaleZeit += eps)
 	{
 		Kr1->vSimulieren();
@@ -343,45 +356,61 @@ void vAufgabe_7()
 	std::cin >> c;
 }
 
+/**
+ * Testen der Einlesefunktion
+ * einlesen der Datei VO.dat
+ */
 void vAufgabe_8()
 {
+	//Dateiname
 	const std::string& filename = "VO.dat";
-	std::ifstream infile(filename);
+	std::ifstream infile(filename); //Datei mit ifstream öffnen
 
-	Weg w1("w1", 200);
+	Weg w1("w1", 200); //Weg erstellen
 
+	//Leere Simulationsobjekte erstellen
 	PKW pkw1;
-	Fahrrad rad1("hi", 50);
+	Fahrrad rad1("hi", 50);//Zur Fehlererzeugung
+	//Fahrrad rad1;
 	Kreuzung Kr1;
 
+	//Weg auf Fahrzeuge setzen
 	pkw1.vNeueStrecke(w1);
 	rad1.vNeueStrecke(w1);
 
+	//Excepion fangen
 	try
 	{
+		//Datei einlesen
 		infile >> pkw1;
 		infile >> rad1;
 		infile >> Kr1;
 	}
-	catch (std::runtime_error& re)
+	catch (std::runtime_error& re) //Exception handeling
 	{
-		std::cout << re.what() << std::endl;
-		exit(-1);
+		std::cout << re.what() << std::endl; //Fehlermeldung ausgeben
+		exit(-1); //Beenden
 	}
-
+	//Ausgabe
 	std::cout << pkw1 << std::endl << rad1 << std::endl << Kr1 << std::endl;
 }
 
+/**
+ * Testen des einlesens einer Datein und erstellen vom Verkehrsnetz
+ * Prüfen ob alle Fehler erkannt werden
+ */
 void vAufgabe_9()
 {
 	Simulation simu;
 
-	const std::string& filename = "Simu.dat";
+	//const std::string& filename = "Simu.dat";//Datei zum einlesen
+	const std::string& filename = "SimuKopie.dat";//Datei zum einlesen mit Fehlern
 	std::ifstream infile(filename);
 
+	//Fehler fangen
 	try
 	{
-		simu.vEinlesen(infile);
+		simu.vEinlesen(infile);//Einlesen der Datei
 	}
 	catch(std::runtime_error& ex)
 	{
@@ -389,17 +418,20 @@ void vAufgabe_9()
 		exit(-1);
 	}
 }
-
+/**
+ * Testen der grafischen Oberfläche
+ */
 void vAufgabe_9a()
 {
 	Simulation simu;
 
-	const std::string& filename = "SimuDisplay.dat";
+	const std::string& filename = "SimuDisplay.dat"; //Datei mit Grafikdaten
+	//const std::string& filename = "SimuDisplay_plus.dat"; //erweiterte Datei mit Grafikdaten
 	std::ifstream infile(filename);
 
 	try
 	{
-		simu.vEinlesen(infile, true);
+		simu.vEinlesen(infile, true); //Einlesen und Grafik erstellen
 	}
 	catch(std::runtime_error& ex)
 	{
@@ -407,14 +439,20 @@ void vAufgabe_9a()
 		exit(-1);
 	}
 
+	//Simulieren
 	simu.vSimulieren(40, 0.1);
 
 	char c;
 	std::cin >> c;
 }
 
+/**
+ * Main methode
+ * @return 0
+ */
 int main()
 {
+	//vAufgabeBlock3Test();
 	vAufgabe_9a();
 	return 0;
 }

@@ -4,7 +4,7 @@
  *  Created on: 15.10.2023
  */
 
-#include <Constants.h>
+#include "Constants.h"
 #include "Fahrzeug.h"
 #include "Verhalten.h"
 #include "Weg.h"
@@ -191,8 +191,12 @@ Fahrzeug& Fahrzeug::operator=(const Fahrzeug& oprnd)
 	return *this;
 }
 
+/**
+ * Daten aus Stream (von Datei) in Fahrzeug einlesen um die Eigenschaften zu setzen
+ * @param in
+ */
 void Fahrzeug::vEinlesen(std::istream &in)
 {
-	Simulationsobjekt::vEinlesen(in);
-	in >> p_dMaxGeschwindigkeit;
+	Simulationsobjekt::vEinlesen(in); //Nutzen vom Partentobjekt
+	in >> p_dMaxGeschwindigkeit; //Zusaätzlich noch die maximale Geschwindigkeit
 }
