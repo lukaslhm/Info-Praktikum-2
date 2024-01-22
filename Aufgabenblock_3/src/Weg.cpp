@@ -1,4 +1,4 @@
-#include <Constants.h>
+#include "Constants.h"
 #include <limits>
 
 #include "Weg.h"
@@ -6,12 +6,15 @@
 #include "Fahrausnahme.h"
 #include "Kreuzung.h"
 
+
 /**
  * Konstruktor für den Weg
  *
  * @param initName Name vom Weg
  * @param initLaenge Länge vom Weg
  * @param initTempolimit Tempolimit auf dem Weg, default ist ungebrezt
+ * @param ueberholverbot Dürfen Fahrzeuge auf dem Weg überholen, standardmäßig nicht
+ * @param zielKreuzung
  */
 Weg::Weg(std::string initName, double initLaenge, Tempolimit initTempolimit, bool ueberholverbot, std::weak_ptr<Kreuzung> zielKreuzung)
 	: Simulationsobjekt(initName), p_dLaenge(initLaenge), p_bUeberholverbot(ueberholverbot), p_eTempolimit(initTempolimit), p_dVirtuelleSchranke(std::numeric_limits<double>::infinity()), p_pZielKreuzung(zielKreuzung)
@@ -58,7 +61,7 @@ void Weg::vKopf()
 void Weg::vSimulieren()
 {
 	//Alle Fahrzeuge simulieren
-	if (p_bUeberholverbot) p_dVirtuelleSchranke = std::numeric_limits<double>::infinity();
+	if (p_bUeberholverbot) p_dVirtuelleSchranke = std::numeric_limits<double>::infinity(); // Wenn kein Überholverbot gilt, soll die Schranke unbegrenzt sein
 	p_pFahrzeuge.vAktualisieren();
 	for (auto& it : p_pFahrzeuge)
 	{
@@ -180,27 +183,45 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fzg)
 	return std::unique_ptr<Fahrzeug>();
 }
 
+/**
+ * Setzen der virtuellen Schranke
+ * @param newValue Wert auf den die Schranke gesetzt werden soll. An dem Wert ist ein Fahrzeug
+ */
 void Weg::setVirtuelleSchranke(double newValue)
 {
 	p_dVirtuelleSchranke = newValue;
 }
-
+/**
+ * Setzen des Rückwegs der zu diesem Weg gehört
+ * @param rueckWeg Pointer auf den Rückweg
+ */
 void Weg::setRueckWeg(std::weak_ptr<Weg> rueckWeg)
 {
 	p_pRueckWeg = rueckWeg;
 }
-
+/**
+ * Rückgabe der virtuellen Schranke unter berücksichtigung ob ein Überholverbot gilt
+ * @return Wert der nach den Regeln des Wegs gefahren werden darf
+ */
 double Weg::getVirtuelleSchranke() const
 {
 	if (p_bUeberholverbot) return p_dVirtuelleSchranke;
-	else return std::numeric_limits<double>::infinity();
+	else return std::numeric_limits<double>::infinity(); //Gilt kein überholverbot ist die Schranke unbegrenzt
 }
 
+/**
+ * Getterfunktion für die Kreuzung auf der der Weg endet
+ * @return Kreuzung auf der dieser Weg endet
+ */
 std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const
 {
 	return p_pZielKreuzung.lock();
 }
 
+/**
+ * Getterfunktion für den Rückweg der zu diesem Weg gehört
+ * @return Zu dem Weg zugehöriger Rückweg
+ */
 std::shared_ptr<Weg> Weg::getRuckWeg() const
 {
 	return p_pRueckWeg.lock();
