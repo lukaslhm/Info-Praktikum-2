@@ -32,7 +32,7 @@ public:
 	static void vKopf();
 	///Ausgabefunktion für die Eigenschaften des Fahrzeugs
 	virtual void vAusgeben(std::ostream& out) const override;
-
+	///Einlesefunktion für die zusätzlichen Eigenschaften des Fahrzeugs
 	virtual void vEinlesen(std::istream& in) override;
 
 	///Simulationsfunktion zum Simulieren vom Verhalten
