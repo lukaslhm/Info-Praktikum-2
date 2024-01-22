@@ -65,6 +65,7 @@ void Streckenende::vBearbeiten()
 		std::cout << p_pFahrzeug << std::endl;
 
 		std::unique_ptr<Fahrzeug> tempFzg = p_pWeg.pAbgabe(p_pFahrzeug);
+		p_pWeg.getZielKreuzung()->vTanken(p_pFahrzeug);
 		tempNewWeg->vAnnahme(std::move(tempFzg));
 	}
 }
