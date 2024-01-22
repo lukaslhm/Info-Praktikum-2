@@ -23,7 +23,7 @@ public:
 
 	///Ausgeben der Eigenschaften vom PKW
 	void vAusgeben(std::ostream& out) const override;
-
+	///Einlesen der zusätzlichen Eigenschaften vom PKW
 	void vEinlesen(std::istream& in) override;
 
 	///Zeichnen vom PKW in der GUI
