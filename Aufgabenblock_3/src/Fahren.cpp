@@ -2,6 +2,7 @@
 #include "Fahrzeug.h"
 #include "Weg.h"
 #include "Streckenende.h"
+#include <cmath>
 
 /**
  * Konstruktor für das Verhalten Fahren
@@ -30,7 +31,7 @@ Fahren::~Fahren()
 double Fahren::dStrecke(Fahrzeug& aFzg, double dZeitIntervall)
 {
 	double tempStrecke = Verhalten::dStrecke(aFzg, dZeitIntervall);
-	if (abs(tempStrecke) < 3 * std::numeric_limits<double>::min()) 
+	if (fabs(tempStrecke) < 3 * std::numeric_limits<double>::min()) //Fahrzeug ist am Ende vom Weg angekommen
 	{
 		throw Streckenende(aFzg, p_pWeg); //Exception werfen
 	}
